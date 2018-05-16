@@ -21,6 +21,7 @@ class CreateTransactionsTable extends Migration
             $table->text('comment')->nullable();
             $table->dateTime('transaction_time');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('wallet_id')->references('id')->on('wallets')->onDelete('cascade');;
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');;

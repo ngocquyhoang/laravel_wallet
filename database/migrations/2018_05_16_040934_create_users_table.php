@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->dateTime('dob')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

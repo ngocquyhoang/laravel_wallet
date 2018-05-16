@@ -22,6 +22,7 @@ class CreateWalletsTable extends Migration
             $table->unsignedInteger('type');
             $table->text('comment')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
         });

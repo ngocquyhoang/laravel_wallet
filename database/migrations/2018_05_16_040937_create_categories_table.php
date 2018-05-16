@@ -19,6 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->string('icon_code');
             $table->string('label');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');;
         });
