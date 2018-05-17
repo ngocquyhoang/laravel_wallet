@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () { return view('welcome'); });
+Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+Auth::routes();
+
+Route::resource('user', 'UserController')->only(['update']);
