@@ -12,6 +12,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -99,6 +101,10 @@
 
                                                     <div class="col-md-6">
                                                         <input id="update_username" type="text" class="form-control" name="username" value="{{ Auth::user()->username }}" required>
+
+                                                        <span class="invalid-feedback">
+                                                            <strong id="error_username"></strong>
+                                                        </span>
                                                     </div>
                                                 </div>
 
@@ -109,6 +115,10 @@
 
                                                     <div class="col-md-6">
                                                         <input id="update_full_name" type="text" class="form-control" name="full_name" value="{{ Auth::user()->full_name }}">
+
+                                                        <span class="invalid-feedback">
+                                                            <strong id="error_full_name"></strong>
+                                                        </span>
                                                     </div>
                                                 </div>
 
@@ -118,7 +128,11 @@
                                                     </label>
 
                                                     <div class="col-md-6">
-                                                        <input id="update_phone_number" type="text" class="form-control" name="phone_number" value="{{ Auth::user()->phone_number }}">
+                                                        <input id="update_phone_number" type="number" class="form-control" name="phone_number" value="{{ Auth::user()->phone_number }}">
+
+                                                        <span class="invalid-feedback">
+                                                            <strong id="error_phone_number"></strong>
+                                                        </span>
                                                     </div>
                                                 </div>
 
@@ -129,6 +143,10 @@
 
                                                     <div class="col-md-6">
                                                         <input id="update_dob" type="text" class="form-control" name="dob" value="{{ Auth::user()->dob }}">
+
+                                                        <span class="invalid-feedback">
+                                                            <strong id="error_dob"></strong>
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -146,9 +164,12 @@
                             </form>
 
                             <script type="text/javascript">
+                                $('#update_dob').datepicker({
+                                    format: "yyyy/mm/dd"
+                                });
+
                                 $('#update_profile_form').on('submit', function(event) {
                                     var csrf_token = $('#update_profile_form input[name="_token"]').val();
-                                    var email = $('#update_email').val();
                                     var username = $('#update_username').val();
                                     var full_name = $('#update_full_name').val();
                                     var phone_number = $('#update_phone_number').val();
@@ -156,7 +177,6 @@
                                     
                                     var profile_data = {
                                         _token: csrf_token,
-                                        email: email,
                                         username: username,
                                         full_name: full_name,
                                         phone_number: phone_number,
@@ -168,8 +188,29 @@
                                         type : "PUT",
                                         dataType:"json",
                                         data : profile_data
+                                    }).always(function(result) {
+                                        $('#update_profile_form .form-control').removeClass('is-invalid');
+                                        $('.invalid-feedback strong').text('');
                                     }).done(function(result) {
-                                        console.log(result);
+                                        if (result.status) {
+                                            $.toast({
+                                                heading: 'Success!',
+                                                text: result.message,
+                                                allowToastClose: false,
+                                                position: 'top-right',
+                                                loaderBg:'#2f3d4a',
+                                                icon: 'success',
+                                                hideAfter: 3500
+                                            });
+
+                                            $('#update_profile_modal').modal('hide');
+                                        }
+                                    }).fail(function(result) {
+                                        let messages = result.responseJSON.message;
+                                        Object.keys(messages).forEach(function(object){
+                                            $(`#update_${object}`).addClass('is-invalid');
+                                            $(`#error_${object}`).text(messages[object][0]);
+                                        });
                                     });
 
                                     event.preventDefault(); 
