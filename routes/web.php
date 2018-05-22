@@ -11,9 +11,11 @@
 |
 */
 
+Auth::routes();
+Route::resource('user', 'UserController')->only(['update']);
+Route::resource('wallet', 'WalletController')->except(['index', 'create', 'edit']);
+
 Route::get('/', function () { return view('welcome'); });
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
-Auth::routes();
-
-Route::resource('user', 'UserController')->only(['update']);
 Route::put('/user/{user}/update_password', 'UserController@update_password')->name('update_password');
+

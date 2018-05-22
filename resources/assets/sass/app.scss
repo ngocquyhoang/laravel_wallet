@@ -49,3 +49,24 @@
   color: #ffffff; 
   border-radius: 0px;
 }
+
+.wallet-item {
+    display: block;
+    text-decoration: none;
+    color: #212529;
+
+    &:hover {
+        text-decoration: none;
+        color: #212529;
+    }
+
+    p {
+        font-size: 16px;
+        line-height: 25px;
+    }
+
+    .card-header {
+        font-size: 18px;
+        text-transform: uppercase;
+    }
+}

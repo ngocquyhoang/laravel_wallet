@@ -2,22 +2,20 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
+    <div class="row">
+        @foreach ($wallets as $wallet)
+            <div class="col-md-4">
+                <a href="{{ route('wallet.show', $wallet->id) }}" class="wallet-item">
+                    <div class="card">
+                        <div class="card-header">{{ $wallet->name }}</div>
+                        <div class="card-body">
+                            <p>{{ str_limit($wallet->comment, $limit = 150, $end = '...') }}</p>
+                            <i>Updated 3 minutes ago</i>
                         </div>
-                    @endif
-
-                    You are logged in!
-                </div>
+                    </div>
+                </a>
             </div>
-        </div>
+        @endforeach
     </div>
 </div>
 @endsection

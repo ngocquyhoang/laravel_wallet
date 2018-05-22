@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Validator;
-use Hash;
 use Auth;
+use Hash;
+use Validator;
+
 use Illuminate\Http\Request;
 
 class UserController extends Controller
