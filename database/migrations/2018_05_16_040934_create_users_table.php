@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('full_name')->nullable();
             $table->string('phone_number')->nullable();
-            $table->dateTime('dob')->nullable();
+            $table->date('dob')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
